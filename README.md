@@ -33,7 +33,7 @@
 
 ![Hive1](https://user-images.githubusercontent.com/107996709/182199935-86e1f322-1a27-413c-9592-1cdea893389e.png)
 
-A company XYZ receives the data in some file formats in local file system, the company wishes to load the data to the MySQL by creating a table and load the table data into hdfs and transfer the data from hdfs to the hive manages table and from the hive managed table the data is transferred to the hive external table by doing dynamic partition on basis of month and year and later when the new file is uploaded it will perform scd1 to make sure the updated data is only stored and then the data is transferred from external table to a staging table by performing data reconcialiation and finally load the data again to MySQL.
+A company XYZ receives the data in some file formats in local file system, the company wishes to load the data to the MySQL by creating a table and load the table data into hdfs and then transfer the data from hdfs to the hive managed table and from the hive managed table the data is transferred to the hive external table by doing dynamic partition on basis of month and year and later when the new file is uploaded it will perform scd1 to make sure only the updated data is stored and then the data is transferred from external table to a staging table by performing data reconcialiation and finally load the data again to MySQL.
 
 
 
@@ -76,8 +76,8 @@ Technologies and tools that are used in the project
 ## Creating External Table On Basis of Dynamic Partition and load data by performing SCD1
 
 * In the external table, the first task is to create a dynamic partition on basis of month and year and the second task is to perform SCD1.
-* For the dynamic partition, entry time column can be used but the challenge here is, the column format is not feasible to take the month and year out of it, so I used unix_timestamp and from_unixtime functions to change the given format data to hipoc seconds and it again it will change the hipoc seconds to datetime format which is suitable to take the month and year by using month and year functions.
-* For the SCD1, the method I followed is to use left join, right join and inner join which gives the outputs individually and finally combine all the outputs by using union which automatically eliminates duplicates which is the historical records.
+* For the dynamic partition, entry time column can be used but the challenge here is, the column format is not feasible to take the month and year out of it, so I used unix_timestamp and from_unixtime functions to change the given format data to ephoc seconds and it again it will change the ephoc seconds to datetime format which is suitable to take the month and year by using month and year functions.
+* For the SCD1, the method followed is to use left join, right join and inner join which gives the outputs individually and finally combine all the outputs by using union which automatically eliminates duplicates which is the historical records.
 
 
 ## Creating Staging Table And Performing Data Recialiation
@@ -87,4 +87,4 @@ Technologies and tools that are used in the project
 
 ## Loading Data Again To The MySQL
 
-* In the end, I loading the data from the staging table to the MySQL by using sqoop expor command.
+* In the end, I loaded the data from the staging table to the MySQL by using sqoop export command.
